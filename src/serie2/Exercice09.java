@@ -4,6 +4,8 @@
  */
 package serie2;
 
+import java.util.Scanner;
+
 /**
  *
  * @author greg
@@ -34,18 +36,22 @@ public class Exercice09 {
                         .build());
         System.out.println("Veuillez entrer le nom du jour en minuscule (ex: lundi) : ");
         String jour = scanner1.nextLine();
-        
+
+
         byte rabais = 0;
         
-        if (jour == "lundi") {
+        if (jour.equals("lundi")) {
             rabais = 20;
-        } else if (jour == "mardi" || jour == "jeudi") {
+        } else if (jour.equals("mardi") || jour.equals("jeudi")) {
             rabais = 10;
         } else {
             rabais = 0;
         }
-        
-        
-        
+
+        double prixFinal = Math.round((prixBillet - (prixBillet * rabais / 100.0)) * 2) / 2.0;
+
+        System.out.println("Prix de base : " + prixBillet + ".-");
+        System.out.println("Votre rabais : " + rabais + "%");
+        System.out.printf("Votre prix : " + String.format("%.2f", prixFinal) + ".-");
     }
 }

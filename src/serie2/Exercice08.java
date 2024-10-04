@@ -4,8 +4,6 @@
  */
 package serie2;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 /**
  *
  * @author greg
@@ -57,16 +55,9 @@ public class Exercice08 {
             rabais += 20;
         }
         
-        double prixFinal = (prixBillet - (prixBillet * rabais / 100));
-        System.out.println("Prix final avant arrondi : " + prixFinal);
-        prixFinal = Math.round(prixFinal * 100) / 100;
-        System.out.println("Prix final : " + prixFinal);
-       
-        
-        
-        
-//        System.out.println("Prix de base : " + prixBillet + ".-");
-//        System.out.println("   Votre rabais : " + rabais + '%');
-        
+        double prixFinal = Math.round((prixBillet - (prixBillet * rabais / 100.0)) * 20) / 20.0;
+        System.out.println("Prix de base : " + prixBillet + ".-");
+        System.out.println("   Votre rabais : " + rabais + '%');
+        System.out.printf("    Votre prix : %.2f ", prixFinal);
     }
 }
