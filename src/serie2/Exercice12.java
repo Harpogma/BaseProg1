@@ -28,7 +28,7 @@ public class Exercice12 {
                 nombrePiece1 += 1;
             }
         }
- 
+
         System.out.println(nombrePiece5 + " pièces de 5.-");
         System.out.println(nombrePiece2 + " pièces de 2.-");
         System.out.println(nombrePiece1 + " pièces de 1.-");
