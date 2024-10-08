@@ -27,7 +27,7 @@ public class Exercice11 {
                 jourValide = true;
             }
         } else if (mois == 2) {
-            if (jour == 29 && anneeBissectile == true) {
+            if (jour == 29 && anneeBissectile) {
                 jourValide = true;
             } else if (jour >= 1 && jour <= 28) {
                 jourValide = true;
@@ -36,15 +36,11 @@ public class Exercice11 {
             if (jour >= 1 && jour <= 31) {
                 jourValide = true;
             }
-        } else {
-            jourValide = false;
         }
 
         boolean moisValide = false;
-        if (mois >= 1 || mois <= 12) {
+        if (mois >= 1 && mois <= 12) {
             moisValide = true;
-        } else {
-            moisValide = false;
         }
 
         boolean dateValide = false;
@@ -52,7 +48,6 @@ public class Exercice11 {
             dateValide = true;
             System.out.println("La date " + jour + "." + mois + "." + annee + " est valide");
         } else {
-            dateValide = false;
             System.out.println("La date " + jour + "." + mois + "." + annee + " n'est pas valide");
         }
     }
