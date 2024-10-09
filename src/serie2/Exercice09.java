@@ -44,8 +44,6 @@ public class Exercice09 {
             rabais = 20;
         } else if (jour.equals("mardi") || jour.equals("jeudi")) {
             rabais = 10;
-        } else {
-            rabais = 0;
         }
 
         double prixFinal = Math.round((prixBillet - (prixBillet * rabais / 100.0)) * 2) / 2.0;
