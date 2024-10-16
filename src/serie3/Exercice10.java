@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Exercice10 {
     public static void main(String[] args) {
-        System.out.println("Ce programme vous laisse saisir des notes et arrête la saisie dès qu'une note sort de l'interval    x demandé, puis calcule la moyenne de toutes les notes entrées.");
+        System.out.println("Ce programme vous laisse saisir des notes et arrête la saisie dès qu'une note sort de l'interval demandé, puis calcule la moyenne de toutes les notes entrées.");
 
         float note = 0f;
         float plusHauteNote = 0f;
