@@ -22,9 +22,10 @@ public class Exercice04 {
                 } else {
                     if (nombreDeSuite > nombreDeSuiteFaceMax) {
                         nombreDeSuiteFaceMax = nombreDeSuite;
+                    } else {
                         nombreDeSuite = 1;
                     }
-
+                    nombreDeSuite = 1;
                 }
                 lancePrecedent = rand;
             } else {
@@ -34,8 +35,10 @@ public class Exercice04 {
                 } else {
                     if (nombreDeSuite > nombreDeSuitePileMax) {
                         nombreDeSuitePileMax = nombreDeSuite;
+                    } else {
                         nombreDeSuite = 1;
                     }
+                    nombreDeSuite = 1;
                 }
                 lancePrecedent = rand;
             }
