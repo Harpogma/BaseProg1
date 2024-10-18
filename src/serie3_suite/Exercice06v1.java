@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Exercice06v1 {
     public static void main(String[] args) {
-
+        //Méthode maison, pas optimale du tout. Voir la v2 pour la méthode optimale et plus logique
         byte min = 30;
         byte max = 90;
         byte userInput;
