@@ -5,6 +5,7 @@ public class Exercice08 {
         byte[] notes = {2, 3, 4, 5, 1, 6, 2, 3, 3, 4, 5, 6, 6, 3, 2, 5, 4, 3, 4, 4, 5};
         byte[] nombresNotes = new byte[7];
 
+        //fait un array avec le nombres de chacune des notes
         for (int i = 0; i <= notes.length - 1; i++) {
             nombresNotes[notes[i]]++;
         }
