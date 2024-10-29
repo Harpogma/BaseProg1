@@ -16,7 +16,7 @@ public class Exercice09 {
                 indexPusHauteNote = nombresNotes[i];
             }
         }
-        
+
         for (int i = indexPusHauteNote; i > 0; i--) {
             for (int j = 1; j <= nombresNotes.length - 1; j++) {
                 if (nombresNotes[j] >= i) {
