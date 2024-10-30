@@ -20,5 +20,21 @@ public class Exercice12 {
             }
             System.out.println();
         }
+
+        System.out.println();
+        //autre version
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (parite) {
+                    System.out.print(caseBlanche + " ");
+                    parite = false;
+                } else {
+                    System.out.print(caseNoire + " ");
+                    parite = true;
+                }
+            }
+            System.out.println();
+            parite = !parite;
+        }
     }
 }
