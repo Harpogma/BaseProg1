@@ -22,5 +22,4 @@ public class Exercice04 {
             System.out.println("Le nombre est négatif");
         }
     }
-    
 }
