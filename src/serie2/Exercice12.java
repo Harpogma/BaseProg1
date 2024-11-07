@@ -23,7 +23,7 @@ public class Exercice12 {
             } else if ((somme - 2 >= 0)) {
                 somme -= piece2;
                 nombrePiece2 += 1;
-            } else if (somme - 1 >= 0) {
+            } else {
                 somme -= piece1;
                 nombrePiece1 += 1;
             }
