@@ -8,7 +8,7 @@ public class test24 {
         System.out.println("Votre score au départ est de 301, le but est d'arriver à 0 sans passer en dessous");
         short totalScore = 301;
         byte userShot;
-        byte userMultiplier;
+        byte multiplier;
         byte scorePerRound = 0;
 
         do {
@@ -29,15 +29,15 @@ public class test24 {
             if (userShot > 0 && userShot <= 20) {
                 Scanner scanner1 = new Scanner(System.in);
                 System.out.println("Avez-vous touché le x1, x2 ou le x3 ?");
-                userMultiplier = scanner1.nextByte();
-                if (userMultiplier != 1 &&userMultiplier != 2 && userMultiplier != 3) {
+                multiplier = scanner1.nextByte();
+                if (multiplier != 1 &&multiplier != 2 && multiplier != 3) {
                     do {
                         System.out.println("Erreur, vous ne pouvez avoir un multiplicateur que de x1, x2 ou x3");
-                        userMultiplier = scanner1.nextByte();
-                    } while (userMultiplier != 1 &&userMultiplier != 2 && userMultiplier != 3);
+                        multiplier = scanner1.nextByte();
+                    } while (multiplier != 1 &&multiplier != 2 && multiplier != 3);
                 }
 
-                scorePerRound = (byte)(userShot * userMultiplier);
+                scorePerRound = (byte)(userShot * multiplier);
                 System.out.println("Votre score de tour est de " + scorePerRound);
             } else if (userShot == 25 || userShot == 50) {
                 scorePerRound = userShot;
@@ -53,6 +53,6 @@ public class test24 {
                 System.out.println("Votre score est de " + totalScore);
             }
         } while (totalScore > 0);
-        System.out.println("Félicitations !");
+        System.out.println("Félicitations vous avez gagné!");
     }
 }
