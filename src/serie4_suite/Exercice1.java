@@ -61,8 +61,15 @@ public class Exercice1 {
     public static byte selectIndexHole(byte[] pointsTab, byte numberOfHole) {
         byte userSelectHole;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Pour quel trou voulez-vous entrer un score ?");
+        System.out.println("Pour quel trou voulez-vous entrer un score ? Sélectionnez un nombre entre 1 et 18.");
         userSelectHole = scanner.nextByte();
+
+        if (userSelectHole < 1 || userSelectHole > numberOfHole) {
+            do {
+                System.out.println("Il n'y a que 18 trous possibles. Veuillez entrer un nombre entre 1 et 18.");
+                userSelectHole = scanner.nextByte();
+            } while (userSelectHole < 1 || userSelectHole > numberOfHole);
+        }
         return userSelectHole;
     }
 
@@ -70,32 +77,44 @@ public class Exercice1 {
         byte playerIndexToSetPointTo = selectPlayerName(playerName);
         byte holeToSetPointTo = selectIndexHole(pointsTab, numberOfHole);
 
-        System.out.println("Le player saisi est à l'index : " + playerIndexToSetPointTo);
-        System.out.println("Le trou saisi pour entrer des points est à l'index : " + holeToSetPointTo);
         System.out.println("Veuillez saisir le score pour ce trou");
 
         Scanner scanner = new Scanner(System.in);
         byte holeScore = scanner.nextByte();
         pointsTab[(playerIndexToSetPointTo * numberOfHole) + holeToSetPointTo] = holeScore;
 
+        if (holeScore < 0 || holeScore > 7) {
+            do {
+                System.out.println("Le score maximum est de 0 et le score minimum est de 8. Veuillez saisir un score valide.");
+                holeScore = scanner.nextByte();
+                pointsTab[(playerIndexToSetPointTo * numberOfHole) + holeToSetPointTo] = holeScore;
+            } while (holeScore < 0 || holeScore > 7);
+        }
+
         System.out.println("Le joueur " + playerName[playerIndexToSetPointTo] + " a fait un score de " + holeScore + " pour le trou n° " + holeToSetPointTo);
     }
 
     public static void displayScores(byte numberOfPlayer, String[] playerName, byte[] pointsTab, byte numberOfHole) {
         String winner = "";
+        String loser = "";
         byte totalScore = 0;
         byte maxScore = 0;
+        byte minScore = (7*18); //starts at 7 points per 18 holes and the score decrease
         String tempPlayerName;
-
 
         for (int i = 1; i <= numberOfPlayer; i++) {
             tempPlayerName = playerName[i - 1];
             for (int j = 0; j < numberOfHole; j++) {
-                totalScore += pointsTab[(numberOfHole * (numberOfPlayer - 1)) + j]; //check the index if it does not goes out of bound
+                totalScore += pointsTab[(numberOfHole * (numberOfPlayer - 1)) + j];
             }
 
             if (totalScore > maxScore) {
                 maxScore = totalScore;
+                loser = playerName[i - 1];
+            }
+
+            if (totalScore < minScore) {
+                minScore = totalScore;
                 winner = playerName[i - 1];
             }
 
@@ -103,19 +122,18 @@ public class Exercice1 {
         }
 
         System.out.println();
-        System.out.println("Le gagnant est " + winner + " avec un score de " + maxScore);
+        System.out.println("Le gagnant est " + winner + " avec un score de " + minScore);
+        System.out.println("Le perdant est " + loser + " avec un score de " + maxScore);
     }
 
-
     public static void main(String[] args) {
-
         final byte numberOfHole = 18;
 
         welcomeMessage();
 
         byte numberOfPlayer = setPlayerNumber();
-
         byte[] pointsTab = new byte[numberOfPlayer * 18];
+
         System.out.println("Point tab size: " + pointsTab.length);
         final String[] playerName = setPlayerName(numberOfPlayer);
 
@@ -135,18 +153,14 @@ public class Exercice1 {
         byte userChoice = gameAction();
 
         while (userChoice != 0) {
-
             if (userChoice == 1) {
                 setPoint(playerName, pointsTab, numberOfHole);
             } else if (userChoice == 2) {
                 displayScores(numberOfPlayer, playerName, pointsTab, numberOfHole);
-            } else {
-               //do something here maybe
             }
 
             userChoice = gameAction();
         }
-
         System.out.println("Merci d'avoir joué au minigolf!");
         System.exit(0);
     }
