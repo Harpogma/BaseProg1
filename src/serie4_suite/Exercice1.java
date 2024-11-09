@@ -3,17 +3,30 @@ package serie4_suite;
 import java.util.Scanner;
 
 public class Exercice1 {
+
+    /**
+     * Function to print a welcome message
+     */
     public static void welcomeMessage() {
         System.out.println("Bienvenue dans le jeu du minigolf");
         System.out.println("*********************************");
     }
 
+    /**
+     * Function to set the number of player
+     * @return: the number of players
+     */
     public static byte setPlayerNumber() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Veuillez saisir le nombre de joueur : ");
         return scanner.nextByte();
     }
 
+    /**
+     * Function to set player names
+     * @param playerNumber: number of the player in the game
+     * @return: an array with all player names
+     */
     public static String[] setPlayerName(byte playerNumber) {
         Scanner scanner = new Scanner(System.in);
         String[] playerName = new String[playerNumber];
@@ -25,6 +38,10 @@ public class Exercice1 {
         return playerName;
     }
 
+    /**
+     * Function to choose between different actions
+     * @return: the choice of the user
+     */
     public static byte gameAction() {
         System.out.println();
         System.out.println("Que voulez-vous faire ?");
@@ -35,6 +52,11 @@ public class Exercice1 {
         return scanner.nextByte();
     }
 
+    /**
+     * Function that select a player name
+     * @param playerName: array with all player names
+     * @return: the index of the selected player
+     */
     public static byte selectPlayerName(String[] playerName) {
         byte userSelectName;
         Scanner scanner = new Scanner(System.in);
@@ -58,6 +80,12 @@ public class Exercice1 {
         return userSelectName;
     }
 
+    /**
+     * Function that select the index of the array of holes to set points to
+     * @param pointsTab: array of all points for all players
+     * @param numberOfHole: the number of holes in a golf game is 18
+     * @return: the index of the array of holes
+     */
     public static byte selectIndexHole(byte[] pointsTab, byte numberOfHole) {
         byte userSelectHole;
         Scanner scanner = new Scanner(System.in);
@@ -73,6 +101,12 @@ public class Exercice1 {
         return userSelectHole;
     }
 
+    /**
+     * Function to set point for a certain player for a certain hole
+     * @param playerName: name of the player
+     * @param pointsTab: array of all points for all players
+     * @param numberOfHole: the number of holes in a golf game is 18
+     */
     public static void setPoint(String[] playerName, byte[] pointsTab, byte numberOfHole) {
         byte playerIndexToSetPointTo = selectPlayerName(playerName);
         byte holeToSetPointTo = selectIndexHole(pointsTab, numberOfHole);
@@ -94,6 +128,13 @@ public class Exercice1 {
         System.out.println("Le joueur " + playerName[playerIndexToSetPointTo] + " a fait un score de " + holeScore + " pour le trou n° " + holeToSetPointTo);
     }
 
+    /**
+     * Function to display all scores of all players
+     * @param numberOfPlayer: number of the player in the game
+     * @param playerName: name of the player
+     * @param pointsTab: array of all points for all players
+     * @param numberOfHole: the number of holes in a golf game is 18
+     */
     public static void displayScores(byte numberOfPlayer, String[] playerName, byte[] pointsTab, byte numberOfHole) {
         String winner = "";
         String loser = "";
