@@ -1,5 +1,6 @@
 package serie4_suite;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Exercice1 {
@@ -18,8 +19,26 @@ public class Exercice1 {
      */
     public static byte setPlayerNumber() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Veuillez saisir le nombre de joueur : ");
-        return scanner.nextByte();
+        byte numberOfPlayers = 0;
+
+        while (true) {
+            System.out.println("Veuillez saisir le nombre de joueur entre 1 et 5 : ");
+
+            if (scanner.hasNextByte()) {
+                numberOfPlayers = scanner.nextByte();
+
+                if (numberOfPlayers >= 1 && numberOfPlayers <= 5) {
+                    break;
+                } else {
+                    System.out.println("Il faut saisir un nombre entier entre 1 et 5 !");
+                }
+            } else {
+                System.out.println("Entrée invalide. Il faut saisir un nombre entier entre 1 et 5 !");
+                scanner.next();
+            }
+            scanner.nextLine();
+        }
+        return numberOfPlayers;
     }
 
     /**
@@ -47,6 +66,7 @@ public class Exercice1 {
         System.out.println("Que voulez-vous faire ?");
         System.out.println("Tapez 1 pour saisir un nombre d'essai pour un trou");
         System.out.println("Tapez 2 pour connaitre le gagnant de la partie");
+        System.out.println("Tapez 3 pour imprimer le tableau des scores");
         System.out.println("Tapez 0 pour quitter");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextByte();
@@ -75,18 +95,16 @@ public class Exercice1 {
                 userSelectName = (byte)(scanner.nextByte() - 1);
             } while (userSelectName < 0 || userSelectName > playerName.length);
         }
-
         System.out.println(playerName[userSelectName] + " est sélectionné.");
         return userSelectName;
     }
 
     /**
      * Function that select the index of the array of holes to set points to
-     * @param pointsTab: array of all points for all players
      * @param numberOfHole: the number of holes in a golf game is 18
      * @return: the index of the array of holes
      */
-    public static byte selectIndexHole(byte[] pointsTab, byte numberOfHole) {
+    public static byte selectIndexHole(byte numberOfHole) {
         byte userSelectHole;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Pour quel trou voulez-vous entrer un score ? Sélectionnez un nombre entre 1 et 18.");
@@ -109,7 +127,7 @@ public class Exercice1 {
      */
     public static void setPoint(String[] playerName, byte[] pointsTab, byte numberOfHole) {
         byte playerIndexToSetPointTo = selectPlayerName(playerName);
-        byte holeToSetPointTo = selectIndexHole(pointsTab, numberOfHole);
+        byte holeToSetPointTo = selectIndexHole(numberOfHole);
 
         System.out.println("Veuillez saisir le score pour ce trou");
 
@@ -124,7 +142,6 @@ public class Exercice1 {
                 pointsTab[(playerIndexToSetPointTo * numberOfHole) + holeToSetPointTo] = holeScore;
             } while (holeScore < 0 || holeScore > 7);
         }
-
         System.out.println("Le joueur " + playerName[playerIndexToSetPointTo] + " a fait un score de " + holeScore + " pour le trou n° " + holeToSetPointTo);
     }
 
@@ -135,7 +152,7 @@ public class Exercice1 {
      * @param pointsTab: array of all points for all players
      * @param numberOfHole: the number of holes in a golf game is 18
      */
-    public static void displayScores(byte numberOfPlayer, String[] playerName, byte[] pointsTab, byte numberOfHole) {
+    public static void displayWinner(byte numberOfPlayer, String[] playerName, byte[] pointsTab, byte numberOfHole) {
         String winner = "";
         String loser = "";
         byte totalScore = 0;
@@ -158,13 +175,45 @@ public class Exercice1 {
                 minScore = totalScore;
                 winner = playerName[i - 1];
             }
-
             System.out.println("Le score de " + tempPlayerName + " est : " + totalScore);
         }
-
         System.out.println();
         System.out.println("Le gagnant est " + winner + " avec un score de " + minScore);
         System.out.println("Le perdant est " + loser + " avec un score de " + maxScore);
+    }
+
+    /**
+     * Function to print a table with all scores for all players
+     * @param numberOfPlayer: number of the player in the game
+     * @param playerName: name of the player
+     * @param pointsTab: array of all points for all players
+     * @param numberOfHole: the number of holes in a golf game is 18
+     */
+    public static void printScores(byte numberOfPlayer, String[] playerName, byte[] pointsTab, byte numberOfHole) {
+        System.out.println("***** Tableau des scores *****");
+        System.out.print("Trou | ");
+        for (int i = 0; i < numberOfHole; i++) {
+            System.out.printf("%-3d |", (i + 1));
+        }
+        System.out.println();
+        System.out.print("=======");
+        for (int i = 0; i < numberOfHole; i++) {
+            System.out.print("=====");
+        }
+
+        for (int i = 0; i < numberOfPlayer; i++) {
+            System.out.println();
+            System.out.print(playerName[i] + " | ");
+            byte indexRangeForCurrentPlayer = (byte)(Arrays.asList(playerName).indexOf(playerName[i])); //this is to find the index of playerName[i]
+            for (int j = 0; j < numberOfHole; j++) {
+                System.out.printf("%-3d |", pointsTab[((numberOfHole - 1) * indexRangeForCurrentPlayer) + j]);
+            }
+            System.out.println();
+            System.out.print("=======");
+            for (int j = 0; j < numberOfHole; j++) {
+                System.out.print("=====");
+            }
+        }
     }
 
     public static void main(String[] args) {
@@ -197,7 +246,9 @@ public class Exercice1 {
             if (userChoice == 1) {
                 setPoint(playerName, pointsTab, numberOfHole);
             } else if (userChoice == 2) {
-                displayScores(numberOfPlayer, playerName, pointsTab, numberOfHole);
+                displayWinner(numberOfPlayer, playerName, pointsTab, numberOfHole);
+            } else if (userChoice == 3) {
+                printScores(numberOfPlayer, playerName, pointsTab, numberOfHole);
             }
 
             userChoice = gameAction();
