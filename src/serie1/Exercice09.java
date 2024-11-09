@@ -15,7 +15,7 @@ public class Exercice09 {
      */
     public static void main(String[] args) {
         Scanner nombrePhotoInput = new Scanner(System.in);
-        System.out.println("Combien de phot avez-vous :");
+        System.out.println("Combien de photo avez-vous :");
         int nombrePhoto = nombrePhotoInput.nextInt();
         
         Scanner nombrePhotoLigneInput = new Scanner(System.in);
@@ -23,7 +23,7 @@ public class Exercice09 {
         int nombrePhotoLigne = nombrePhotoLigneInput.nextInt();
         
         int nombreLignePleine = nombrePhoto / nombrePhotoLigne;
-        System.out.println("Il y aura " + nombreLignePleine + " ligne(s) constituées de " + nombrePhotoLigne + "photos");
+        System.out.println("Il y aura " + nombreLignePleine + " ligne(s) constituées de " + nombrePhotoLigne + " photos");
         
         int restePhoto = nombrePhoto % nombrePhotoLigne;
         System.out.println("Il y aura " + restePhoto + " photo(s) sur la dernière ligne.");
