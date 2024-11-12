@@ -12,6 +12,7 @@ public class test23_exo2 {
         ArrayList<String> presentGuests = new ArrayList<>();
         boolean firstLetterUppercase = false;
         boolean isGuest = false;
+        boolean isAlreadyIn = false;
         byte length = 0;
 
         do {
@@ -63,8 +64,14 @@ public class test23_exo2 {
             }
 
             if (isGuest) {
-                presentGuests.add(guest);
-                System.out.println("Bienvenue " + guest + " vous pouvez entrer !");
+                if (!isAlreadyIn) {
+                    presentGuests.add(guest);
+                    System.out.println("Bienvenue " + guest + " vous pouvez entrer !");
+                    isAlreadyIn = true;
+                } else {
+                    System.out.println("Cette personne est déjà entrée !");
+                    isAlreadyIn = false;
+                }
             } else {
                 System.out.println("Cette personne n'a pas été invitée...");
                 absentGuests.add(guest);
