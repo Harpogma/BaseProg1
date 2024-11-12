@@ -30,7 +30,7 @@ public class test24 {
                 Scanner scanner1 = new Scanner(System.in);
                 System.out.println("Avez-vous touché le x1, x2 ou le x3 ?");
                 multiplier = scanner1.nextByte();
-                if (multiplier != 1 &&multiplier != 2 && multiplier != 3) {
+                if (multiplier != 1 && multiplier != 2 && multiplier != 3) {
                     do {
                         System.out.println("Erreur, vous ne pouvez avoir un multiplicateur que de x1, x2 ou x3");
                         multiplier = scanner1.nextByte();
