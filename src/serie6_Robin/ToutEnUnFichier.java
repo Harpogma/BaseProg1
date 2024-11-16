@@ -5,13 +5,13 @@ import java.util.Scanner;
 public class ToutEnUnFichier {
 
     public static char[][] createChessBoard() {
-        char whiteSquare = '#';
-        char blackSquare = '0';
+        char whiteSquare = '0';
+        char blackSquare = '#';
         char[][] board = new char[8][8];
 
         boolean switchChar = false;
 
-        for (int i = board[0].length - 1; i >= 0; i--) {
+        for (int i = 0; i < board[0].length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 if (switchChar) {
                     board[j][i] = whiteSquare;
@@ -55,12 +55,31 @@ public class ToutEnUnFichier {
         System.out.println();
     }
 
-    public static void placeAPawn(String input) {
+    public static char[][] placeAPawn(String input) {
         char[][] board = createChessBoard();
         char column = input.charAt(0);
-        String row = input.substring(1);
-        int test = Integer.parseInt(input.substring(1));
+        int columnIndex = 0;
+        int row = Integer.parseInt(input.substring(1));
 
+        switch (column) {
+            case 'B': columnIndex = 1;
+                break;
+            case 'C': columnIndex = 2;
+                break;
+            case 'D': columnIndex = 3;
+                break;
+            case 'E': columnIndex = 4;
+                break;
+            case 'F': columnIndex = 5;
+                break;
+            case 'G': columnIndex = 6;
+                break;
+            case 'H': columnIndex = 7;
+                break;
+        }
+
+        board[columnIndex][(row - 1)] = 'P';
+        return board;
     }
 
     public static boolean isUserInputValid(String input) {
@@ -89,9 +108,11 @@ public class ToutEnUnFichier {
         boolean isSquareValid = isUserInputValid(pawnToPlace);
 
         if (isSquareValid) {
-            placeAPawn(pawnToPlace);
+            board = placeAPawn(pawnToPlace);
         } else {
             System.out.println("La case saisie est incorrect!");
         }
+
+        printChessBoard(board);
     }
 }
