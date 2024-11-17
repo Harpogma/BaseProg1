@@ -6,6 +6,30 @@ import java.util.Scanner;
 public class Exercice1 {
 
     /**
+     * Function to get a byte input from the user
+     * @return a byte entered by the user
+     */
+    private static byte getByteInput() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            try {
+                return Byte.parseByte(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid byte value. Try again: ");
+            }
+        }
+    }
+
+    /**
+     * Function to get a string input from the user
+     * @return a string entered by the user
+     */
+    private static String getStringInput() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
+
+    /**
      * Function to print a welcome message
      */
     public static void welcomeMessage() {
@@ -18,26 +42,20 @@ public class Exercice1 {
      * @return: the number of players
      */
     public static byte setPlayerNumber() {
-        Scanner scanner = new Scanner(System.in);
         byte numberOfPlayers = 0;
+        final byte minPlayerNumber = 1;
+        final byte maxPlayerNumber = 5;
 
-        while (true) {
-            System.out.println("Veuillez saisir le nombre de joueur entre 1 et 5 : ");
+        System.out.println("Veuillez saisir le nombre de joueur entre 1 et 5 : ");
+        numberOfPlayers = getByteInput();
 
-            if (scanner.hasNextByte()) {
-                numberOfPlayers = scanner.nextByte();
-
-                if (numberOfPlayers >= 1 && numberOfPlayers <= 5) {
-                    break;
-                } else {
-                    System.out.println("Il faut saisir un nombre entier entre 1 et 5 !");
-                }
-            } else {
-                System.out.println("Entrée invalide. Il faut saisir un nombre entier entre 1 et 5 !");
-                scanner.next();
+        do {
+            if (numberOfPlayers <= minPlayerNumber || numberOfPlayers > maxPlayerNumber) {
+                System.out.println("Il faut saisir un nombre entier entre 1 et 5 !");
+                numberOfPlayers = getByteInput();
             }
-            scanner.nextLine();
-        }
+        } while (numberOfPlayers <= minPlayerNumber || numberOfPlayers > maxPlayerNumber);
+
         return numberOfPlayers;
     }
 
@@ -47,12 +65,11 @@ public class Exercice1 {
      * @return: an array with all player names
      */
     public static String[] setPlayerName(byte playerNumber) {
-        Scanner scanner = new Scanner(System.in);
         String[] playerName = new String[playerNumber];
 
         for (int i = 0; i < playerNumber; i++) {
             System.out.println("Veuillez saisir le nom du " + (i + 1) + (i == 0 ? "er" : "ème") + " joueur");
-            playerName[i] = scanner.nextLine();
+            playerName[i] = getStringInput();
         }
         return playerName;
     }
@@ -61,15 +78,14 @@ public class Exercice1 {
      * Function to choose between different actions
      * @return: the choice of the user
      */
-    public static byte gameAction() {
+    public static byte possibleGameAction() {
         System.out.println();
         System.out.println("Que voulez-vous faire ?");
         System.out.println("Tapez 1 pour saisir un nombre d'essai pour un trou");
         System.out.println("Tapez 2 pour connaitre le gagnant de la partie");
         System.out.println("Tapez 3 pour imprimer le tableau des scores");
         System.out.println("Tapez 0 pour quitter");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextByte();
+        return getByteInput();
     }
 
     /**
@@ -77,22 +93,21 @@ public class Exercice1 {
      * @param playerName: array with all player names
      * @return: the index of the selected player
      */
-    public static byte selectPlayerName(String[] playerName) {
+    public static byte getPlayerIndex(String[] playerName) {
         byte userSelectName;
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Quel joueur voulez-vous sélectionner ?");
 
         for (int i = 0; i < playerName.length; i++) {
             System.out.println("Tapez " + (i + 1) + " pour " + playerName[i]);
         }
-        userSelectName = (byte)(scanner.nextByte() - 1);
+        userSelectName = (byte)(getByteInput() - 1);
         if (userSelectName < 0 || userSelectName > playerName.length) {
             do {
                 System.out.println("Il n'y a que " + (playerName.length) + " joueur. Veuillez faire un choix parmis les propositions ci-dessous. ");
                 for (int i = 0; i < playerName.length; i++) {
                     System.out.println("Tapez " + (i + 1) + " pour " + playerName[i]);
                 }
-                userSelectName = (byte)(scanner.nextByte() - 1);
+                userSelectName = (byte)(getByteInput() - 1);
             } while (userSelectName < 0 || userSelectName > playerName.length);
         }
         System.out.println(playerName[userSelectName] + " est sélectionné.");
@@ -104,19 +119,19 @@ public class Exercice1 {
      * @param numberOfHole: the number of holes in a golf game is 18
      * @return: the index of the array of holes
      */
-    public static byte selectIndexHole(byte numberOfHole) {
+    public static byte getHoleIndex(byte numberOfHole) {
         byte userSelectHole;
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Pour quel trou voulez-vous entrer un score ? Sélectionnez un nombre entre 1 et 18.");
-        userSelectHole = scanner.nextByte();
+        userSelectHole = getByteInput();
+        System.out.println("The index of the hole is : " + userSelectHole);
 
         if (userSelectHole < 1 || userSelectHole > numberOfHole) {
             do {
                 System.out.println("Il n'y a que 18 trous possibles. Veuillez entrer un nombre entre 1 et 18.");
-                userSelectHole = scanner.nextByte();
+                userSelectHole = getByteInput();
             } while (userSelectHole < 1 || userSelectHole > numberOfHole);
         }
-        return userSelectHole;
+        return (byte)(userSelectHole - 1);
     }
 
     /**
@@ -126,20 +141,19 @@ public class Exercice1 {
      * @param numberOfHole: the number of holes in a golf game is 18
      */
     public static void setPoint(String[] playerName, byte[] pointsTab, byte numberOfHole) {
-        byte playerIndexToSetPointTo = selectPlayerName(playerName);
-        byte holeToSetPointTo = selectIndexHole(numberOfHole);
+        byte playerIndexToSetPointTo = getPlayerIndex(playerName);
+        byte holeToSetPointTo = getHoleIndex(numberOfHole);
 
         System.out.println("Veuillez saisir le score pour ce trou");
 
-        Scanner scanner = new Scanner(System.in);
-        byte holeScore = scanner.nextByte();
-        pointsTab[(playerIndexToSetPointTo * numberOfHole) + holeToSetPointTo] = holeScore;
+        byte holeScore = getByteInput();
+        pointsTab[(playerIndexToSetPointTo * (numberOfHole - 1)) + holeToSetPointTo] = holeScore;
 
         if (holeScore < 0 || holeScore > 7) {
             do {
                 System.out.println("Le score maximum est de 0 et le score minimum est de 8. Veuillez saisir un score valide.");
-                holeScore = scanner.nextByte();
-                pointsTab[(playerIndexToSetPointTo * numberOfHole) + holeToSetPointTo] = holeScore;
+                holeScore = getByteInput();
+                pointsTab[(playerIndexToSetPointTo * (numberOfHole - 1)) + holeToSetPointTo] = holeScore;
             } while (holeScore < 0 || holeScore > 7);
         }
         System.out.println("Le joueur " + playerName[playerIndexToSetPointTo] + " a fait un score de " + holeScore + " pour le trou n° " + holeToSetPointTo);
@@ -222,7 +236,7 @@ public class Exercice1 {
         welcomeMessage();
 
         byte numberOfPlayer = setPlayerNumber();
-        byte[] pointsTab = new byte[numberOfPlayer * 18];
+        byte[] pointsTab = new byte[numberOfPlayer * numberOfHole];
 
         System.out.println("Point tab size: " + pointsTab.length);
         final String[] playerName = setPlayerName(numberOfPlayer);
@@ -240,7 +254,7 @@ public class Exercice1 {
             }
         }
 
-        byte userChoice = gameAction();
+        byte userChoice = possibleGameAction();
 
         while (userChoice != 0) {
             if (userChoice == 1) {
@@ -251,7 +265,7 @@ public class Exercice1 {
                 printScores(numberOfPlayer, playerName, pointsTab, numberOfHole);
             }
 
-            userChoice = gameAction();
+            userChoice = possibleGameAction();
         }
         System.out.println("Merci d'avoir joué au minigolf!");
         System.exit(0);
