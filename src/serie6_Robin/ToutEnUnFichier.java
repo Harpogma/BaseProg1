@@ -96,6 +96,28 @@ public class ToutEnUnFichier {
         }
     }
 
+    public static boolean isSquareEmpty(char[][] board) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == 'P') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean isKnightMovePossible(String input) {
+        byte[][] knightMoves = {
+            {2, 1}, {2, -1},
+            {-2, 1}, {-2, -1},
+            {1, 2}, {1, -2},
+            {-1, 2}, {-1, -2}
+        };
+
+        return true;
+    }
+
     public static void main(String[] args) {
         System.out.println("Voici l'échiquier");
         char[][] board = createChessBoard();
@@ -103,16 +125,26 @@ public class ToutEnUnFichier {
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Sur quelle case voulez-vous placer un pion ?");
-        String pawnToPlace = scanner.nextLine();
+        String pawnToBePlaced = scanner.nextLine();
 
-        boolean isSquareValid = isUserInputValid(pawnToPlace);
+        boolean isSquareValid = isUserInputValid(pawnToBePlaced);
 
         if (isSquareValid) {
-            board = placeAPawn(pawnToPlace);
+            board = placeAPawn(pawnToBePlaced);
         } else {
-            System.out.println("La case saisie est incorrect!");
+            System.out.println("La case saisie est incorrecte !");
         }
 
         printChessBoard(board);
+
+        System.out.println("Sur quelle case voulez-vous placer un cavalier ?");
+        String knightToBePlaced = scanner.nextLine();
+        isSquareValid = isUserInputValid(knightToBePlaced);
+
+        if (isSquareValid) {
+            // call the function to place the knight
+        } else {
+            System.out.println("La case saisie est incorrecte !");
+        }
     }
 }
