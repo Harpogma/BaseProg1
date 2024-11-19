@@ -69,9 +69,9 @@ public class ToutEnUnFichier {
 
     public static char[][] placeAPiece(String input) {
         char[][] board = createChessBoard();
-        char column = input.charAt(0);
+        char column = parseSquareChar(input);
         int columnIndex = 0;
-        int row = Integer.parseInt(input.substring(1));
+        byte row = parseSquareByte(input);
 
         switch (column) {
             case 'B': columnIndex = 1;
@@ -95,8 +95,8 @@ public class ToutEnUnFichier {
     }
 
     public static boolean isUserInputValid(String input) {
-        char column = input.charAt(0);
-        int row = Integer.parseInt(input.substring(1));
+        char column = parseSquareChar(input);
+        byte row = parseSquareByte(input);
 
         System.out.println("Colonne : " + column);
         System.out.println("Ligne : " + row);
@@ -120,6 +120,9 @@ public class ToutEnUnFichier {
     }
 
     public static boolean isKnightMoveValid(String input) {
+        char column = parseSquareChar(input);
+        byte row = parseSquareByte(input);
+
         byte[][] knightMoves = {
                 {2, 1}, {2, -1},
                 {-2, 1}, {-2, -1},
@@ -127,10 +130,18 @@ public class ToutEnUnFichier {
                 {-1, 2}, {-1, -2}
         };
 
-        //TODO code here to make the knight move
 
 
         return true;
+    }
+
+    public static char parseSquareChar(String input) {
+        return input.charAt(0);
+
+    }
+
+    public static byte parseSquareByte(String input) {
+        return (byte)Integer.parseInt(input.substring(1));
     }
 
     public static char[][] placeAKnight(String input) {
@@ -161,7 +172,7 @@ public class ToutEnUnFichier {
         String knightToBePlaced = scanner.nextLine();
         isSquareValid = isUserInputValid(knightToBePlaced);
 
-        if (isSquareValid) {
+        if (isSquareValid && isSquareEmpty(board)) {
             // call the function to place the knight
         } else {
             System.out.println("La case saisie est incorrecte !");
