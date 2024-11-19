@@ -130,23 +130,22 @@ public class ToutEnUnFichier {
                 {-1, 2}, {-1, -2}
         };
 
-
+        for (int i = 0; i < knightMoves.length; i++) {
+            for (int j = 0; j < knightMoves.length; j++) {
+                if (knightMoves[i][j] == 'P' || knightMoves[i][j] == 'K') {
+                }
+            }
+        }
 
         return true;
     }
 
     public static char parseSquareChar(String input) {
         return input.charAt(0);
-
     }
 
     public static byte parseSquareByte(String input) {
         return (byte)Integer.parseInt(input.substring(1));
-    }
-
-    public static char[][] placeAKnight(String input) {
-        char[][] board = createChessBoard();
-        return board;
     }
 
     public static void main(String[] args) {
@@ -172,8 +171,14 @@ public class ToutEnUnFichier {
         String knightToBePlaced = scanner.nextLine();
         isSquareValid = isUserInputValid(knightToBePlaced);
 
-        if (isSquareValid && isSquareEmpty(board)) {
-            // call the function to place the knight
+        boolean isSquareEmpty = isSquareEmpty(board);
+
+        if (isSquareValid) {
+            if (isSquareEmpty) {
+                placeAPiece(knightToBePlaced);
+            } else {
+                System.out.println("Cette case n'est pas vide, veuillez déplacer votre pièce sur une autre case.");
+            }
         } else {
             System.out.println("La case saisie est incorrecte !");
         }
