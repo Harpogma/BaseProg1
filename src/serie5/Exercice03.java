@@ -1,4 +1,4 @@
-package serie5_Robin;
+package serie5;
 
 public class Exercice03 {
 
