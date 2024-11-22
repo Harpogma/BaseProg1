@@ -56,13 +56,19 @@ public class ToutEnUnFichier {
     }
 
     public static char pieceChoice() {
-        final char pawn = 'P';
-        final char knight = 'K';
+        final char pawn = '\u265F';
+        final char knight = '\u265E';
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Quelle pièce voulez-vous placer ? ");
-        System.out.println("Tapez " + pawn + " pour un pion, ou " + knight + " pour un cavalier :");
+        System.out.println("Tapez P pour un pion, ou K pour un cavalier :");
         char piece = scanner.nextLine().charAt(0);
+
+        if (piece == 'P') {
+            piece = pawn;
+        } else if (piece == 'K') {
+            piece = knight;
+        }
 
         return piece;
     }
@@ -192,13 +198,16 @@ public class ToutEnUnFichier {
 
         if (isSquareValid) {
             if (isSquareEmpty) {
-                placeAPiece(knightToBePlaced);
+                board = placeAPiece(knightToBePlaced);
             } else {
                 System.out.println("Cette case n'est pas vide, veuillez déplacer votre pièce sur une autre case.");
             }
         } else {
             System.out.println("La case saisie est incorrecte !");
         }
+
+        printChessBoard(board);
+
 
         System.out.println("Sur quelle case voulez-vous déplacer votre cavalier ?");
         String knightMove = scanner.nextLine();
@@ -207,10 +216,11 @@ public class ToutEnUnFichier {
 
         if (knightToMove) {
             System.out.println("Le mouvement du cavalier est possible !");
+            board = placeAPiece(knightMove);
         } else {
             System.out.println("Le mouvement du cavalier n'est pas possible !");
         }
 
-
+        printChessBoard(board);
     }
 }
