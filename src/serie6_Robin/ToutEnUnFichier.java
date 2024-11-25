@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 public class ToutEnUnFichier {
 
+    /**
+     * Function that creates the chess board
+     * @return a 2D array that represents the chess board
+     */
     public static char[][] createChessBoard() {
         char whiteSquare = '0';
         char blackSquare = '#';
@@ -26,6 +30,10 @@ public class ToutEnUnFichier {
         return board;
     }
 
+    /**
+     * Function that prints the chess board
+     * @param board         the chess board
+     */
     public static void printChessBoard(char[][] board) {
         byte[] rows = {1, 2, 3, 4, 5, 6, 7, 8};
         char[] columns = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
@@ -55,6 +63,10 @@ public class ToutEnUnFichier {
         System.out.println();
     }
 
+    /**
+     * Function that allows the user to choose the piece to be placed
+     * @return a char with the piece representation in unicode
+     */
     public static char pieceChoice() {
         final char pawn = '\u265F';
         final char knight = '\u265E';
@@ -73,8 +85,13 @@ public class ToutEnUnFichier {
         return piece;
     }
 
-    public static char[][] placeAPiece(String input) {
-        char[][] board = createChessBoard();
+    /**
+     * Function that handles the placement of a piece on the board
+     * @param input         the user's input
+     * @param board         the chess board
+     * @return return a 2D array which represents the chess board with pieces placed on it
+     */
+    public static char[][] placeAPiece(String input, char[][] board) {
         byte column = parseSquareChar(input);
         //int columnIndex = 0;
         byte row = parseSquareByte(input);
@@ -101,6 +118,11 @@ public class ToutEnUnFichier {
         return board;
     }
 
+    /**
+     * Function that checks if the user's input is an existing board square
+     * @param input         the user's input
+     * @return return true if the square exists, false otherwise
+     */
     public static boolean isUserInputValid(String input) {
         byte column = parseSquareChar(input);
         byte row = parseSquareByte(input);
@@ -115,6 +137,12 @@ public class ToutEnUnFichier {
         }
     }
 
+    /**
+     * Function that checks if the square is not occupied by another piece
+     * @param input     the user's input
+     * @param board     the chess board
+     * @return true if the square is empty, false otherwise
+     */
     public static boolean isSquareEmpty(String input, char[][] board) {
         byte column = parseSquareChar(input);
         byte row = parseSquareByte(input);
@@ -126,6 +154,12 @@ public class ToutEnUnFichier {
         }
     }
 
+    /**
+     * Function that checks if the move entered by the user for the knight is possible and not out of the board
+     * @param input     the user's input
+     * @param board     the chess board
+     * @return true if the move is valid, false otherwise
+     */
     public static boolean isKnightMoveValid(String input, char[][] board) {
         byte column = parseSquareChar(input);
         byte row = parseSquareByte(input);
@@ -137,36 +171,65 @@ public class ToutEnUnFichier {
                 {-1, 2}, {-1, -2}
         };
 
-        //TODO complete this part to check if a knight's move is possible
+        for (int i = 0; i < knightMoves.length; i++) {
+            for (int j = 0; j < knightMoves[i].length; j++) {
+                if (column + knightMoves[i][j] < board[0].length) {
+                    if (row + knightMoves[i][j] < board[0].length) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
 
-        return true;
+        return false;
     }
 
+    /**
+     * Function that takes the user input's string, extract the letter and return the column's index
+     * @param input     the user's input
+     * @return the column's index
+     */
     public static byte parseSquareChar(String input) {
         char column = input.charAt(0);
         byte columnIndex = 0;
         switch (column) {
-            case 'B': columnIndex = 1;
+            case 'B':
+                columnIndex = 1;
                 break;
-            case 'C': columnIndex = 2;
+            case 'C':
+                columnIndex = 2;
                 break;
-            case 'D': columnIndex = 3;
+            case 'D':
+                columnIndex = 3;
                 break;
-            case 'E': columnIndex = 4;
+            case 'E':
+                columnIndex = 4;
                 break;
-            case 'F': columnIndex = 5;
+            case 'F':
+                columnIndex = 5;
                 break;
-            case 'G': columnIndex = 6;
+            case 'G':
+                columnIndex = 6;
                 break;
-            case 'H': columnIndex = 7;
+            case 'H':
+                columnIndex = 7;
                 break;
         }
 
         return columnIndex;
     }
 
+    /**
+     * Function that takes the user input's string a extract the number into a byte
+     * @param input     the user's input
+     * @return a byte
+     */
     public static byte parseSquareByte(String input) {
-        return (byte)Integer.parseInt(input.substring(1));
+        return (byte) Integer.parseInt(input.substring(1));
     }
 
     //TODO create a function to handle the user input and ask for a valid one until it's correct
@@ -174,6 +237,7 @@ public class ToutEnUnFichier {
     public static void main(String[] args) {
         System.out.println("Voici l'échiquier");
         char[][] board = createChessBoard();
+
         printChessBoard(board);
 
         Scanner scanner = new Scanner(System.in);
@@ -183,7 +247,7 @@ public class ToutEnUnFichier {
         boolean isSquareValid = isUserInputValid(pawnToBePlaced);
 
         if (isSquareValid) {
-            board = placeAPiece(pawnToBePlaced);
+            board = placeAPiece(pawnToBePlaced, board);
         } else {
             System.out.println("La case saisie est incorrecte !");
         }
@@ -198,7 +262,7 @@ public class ToutEnUnFichier {
 
         if (isSquareValid) {
             if (isSquareEmpty) {
-                board = placeAPiece(knightToBePlaced);
+                board = placeAPiece(knightToBePlaced, board);
             } else {
                 System.out.println("Cette case n'est pas vide, veuillez déplacer votre pièce sur une autre case.");
             }
@@ -216,7 +280,7 @@ public class ToutEnUnFichier {
 
         if (knightToMove) {
             System.out.println("Le mouvement du cavalier est possible !");
-            board = placeAPiece(knightMove);
+            board = placeAPiece(knightMove, board);
         } else {
             System.out.println("Le mouvement du cavalier n'est pas possible !");
         }
