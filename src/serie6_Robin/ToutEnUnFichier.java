@@ -1,5 +1,7 @@
 package serie6_Robin;
 
+import color.Color;
+
 import java.util.Scanner;
 
 public class ToutEnUnFichier {
@@ -37,27 +39,43 @@ public class ToutEnUnFichier {
     public static void printChessBoard(char[][] board) {
         byte[] rows = {1, 2, 3, 4, 5, 6, 7, 8};
         char[] columns = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+        String emptySpacesx2 = "  ";
+        String emptySpacesx4 = "    ";
+        String emptySpacesx5 = "     ";
+        String emptySpacesx6 = "      ";
 
         for (int i = 0; i < columns.length; i++) {
-            System.out.print((i == 0 ? "      " : ""));
-            System.out.printf("%-5c", columns[i]);
+            System.out.print((i == 0 ? "     " : ""));
+            System.out.print(emptySpacesx4 + columns[i]);
         }
         System.out.println();
-        System.out.println();
+
+        boolean even = true;
 
         for (int i = board[0].length - 1; i >= 0; i--) {
-            System.out.printf("%-6d", rows[i]);
+            System.out.print(emptySpacesx6 + rows[i] + " ");
             for (int j = 0; j < board[0].length; j++) {
-                System.out.print(board[j][i] + "    ");
+                if (even) {
+                    System.out.print(Color.GREEN_BACKGROUND_BRIGHT + Color.BLACK_BOLD);
+                    System.out.print(emptySpacesx2 + board[j][i] + emptySpacesx2);
+                    System.out.print(Color.RESET);
+                    even = false;
+                } else {
+                    System.out.print(Color.YELLOW_BACKGROUND_BRIGHT + Color.BLACK_BOLD);
+                    System.out.print(emptySpacesx2 + board[j][i] + emptySpacesx2);
+                    System.out.print(Color.RESET);
+                    even = true;
+                }
             }
-            System.out.print(rows[i]);
+            even = !even;
+            System.out.print(" " + rows[i]);
+
             System.out.println();
         }
 
-        System.out.println();
         for (int i = 0; i < columns.length; i++) {
-            System.out.print((i == 0 ? "      " : ""));
-            System.out.printf("%-5c", columns[i]);
+            System.out.print((i == 0 ? "     " : ""));
+            System.out.print(emptySpacesx4 + columns[i]);
         }
 
         System.out.println();
@@ -65,7 +83,7 @@ public class ToutEnUnFichier {
 
     /**
      * Function that allows the user to choose the piece to be placed
-     * @return a char with the piece representation in unicode
+     * @return a char with the piece representation in Unicode
      */
     public static char pieceChoice() {
         final char pawn = '\u265F';
@@ -147,7 +165,7 @@ public class ToutEnUnFichier {
         byte column = parseSquareChar(input);
         byte row = parseSquareByte(input);
 
-        if (board[column][row] == 'P' || board[column][row] == 'K') {
+        if (board[column][row - 1] == '\u265F' || board[column][row - 1] == '\u265E') {
             return false;
         } else {
             return true;
@@ -173,8 +191,8 @@ public class ToutEnUnFichier {
 
         for (int i = 0; i < knightMoves.length; i++) {
             for (int j = 0; j < knightMoves[i].length; j++) {
-                if (column + knightMoves[i][j] < board[0].length) {
-                    if (row + knightMoves[i][j] < board[0].length) {
+                if (column + knightMoves[i][j] < board[0].length - 1) {
+                    if (row + knightMoves[i][j] < board[0].length - 1) {
                         return true;
                     } else {
                         return false;
@@ -224,7 +242,7 @@ public class ToutEnUnFichier {
     }
 
     /**
-     * Function that takes the user input's string a extract the number into a byte
+     * Function that takes the user input's string and extract the number into a byte
      * @param input     the user's input
      * @return a byte
      */
@@ -254,21 +272,34 @@ public class ToutEnUnFichier {
 
         printChessBoard(board);
 
+        boolean isSquareEmpty;
+
         System.out.println("Sur quelle case voulez-vous placer un cavalier ?");
         String knightToBePlaced = scanner.nextLine();
         isSquareValid = isUserInputValid(knightToBePlaced);
+        isSquareEmpty = isSquareEmpty(knightToBePlaced, board);
 
-        boolean isSquareEmpty = isSquareEmpty(knightToBePlaced, board);
 
-        if (isSquareValid) {
-            if (isSquareEmpty) {
-                board = placeAPiece(knightToBePlaced, board);
-            } else {
-                System.out.println("Cette case n'est pas vide, veuillez déplacer votre pièce sur une autre case.");
+        if (!(isSquareEmpty || isSquareValid)) {
+            while (!(isSquareEmpty && isSquareValid)) {
+                System.out.println("Sur quelle case voulez-vous placer un cavalier ?");
+                knightToBePlaced = scanner.nextLine();
+                isSquareValid = isUserInputValid(knightToBePlaced);
+                isSquareEmpty = isSquareEmpty(knightToBePlaced, board);
+                if (isSquareValid) {
+                    if (isSquareEmpty) {
+                        board = placeAPiece(knightToBePlaced, board);
+                    } else {
+                        System.out.println("Cette case n'est pas vide, veuillez déplacer votre pièce sur une autre case.");
+                    }
+                } else {
+                    System.out.println("La case saisie est incorrecte !");
+                }
             }
         } else {
-            System.out.println("La case saisie est incorrecte !");
+            board = placeAPiece(knightToBePlaced, board);
         }
+
 
         printChessBoard(board);
 
