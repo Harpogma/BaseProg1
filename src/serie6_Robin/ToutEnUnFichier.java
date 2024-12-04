@@ -111,27 +111,8 @@ public class ToutEnUnFichier {
      */
     public static char[][] placeAPiece(String input, char[][] board) {
         byte column = parseSquareChar(input);
-        //int columnIndex = 0;
         byte row = parseSquareByte(input);
 
-       /* switch (column) {
-            case 'B': columnIndex = 1;
-                break;
-            case 'C': columnIndex = 2;
-                break;
-            case 'D': columnIndex = 3;
-                break;
-            case 'E': columnIndex = 4;
-                break;
-            case 'F': columnIndex = 5;
-                break;
-            case 'G': columnIndex = 6;
-                break;
-            case 'H': columnIndex = 7;
-                break;
-        }*/
-
-        //board[columnIndex][(row - 1)] = pieceChoice();
         board[column][(row - 1)] = pieceChoice();
         return board;
     }
@@ -148,7 +129,7 @@ public class ToutEnUnFichier {
         System.out.println("Colonne : " + column);
         System.out.println("Ligne : " + row);
 
-        if (column < 0 || column > 7 || row < 1 || row > 8) {
+        if ((column < 0 || column > 7) && (row < 1 || row > 8)) {
             return false;
         } else {
             return true;
@@ -250,7 +231,23 @@ public class ToutEnUnFichier {
         return (byte) Integer.parseInt(input.substring(1));
     }
 
-    //TODO create a function to handle the user input and ask for a valid one until it's correct
+    public static String getUserInput(String message) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(message);
+        String input = scanner.nextLine();
+
+        boolean isUserInputValid = isUserInputValid(input);
+
+        if (!isUserInputValid) {
+            do {
+                System.out.println("La case entrée n'est pas valide. Veuillez saisir une case valide.");
+                input = scanner.nextLine();
+                isUserInputValid = isUserInputValid(input);
+            } while (!isUserInputValid);
+        }
+
+        return input;
+    }
 
     public static void main(String[] args) {
         System.out.println("Voici l'échiquier");
@@ -259,13 +256,13 @@ public class ToutEnUnFichier {
         printChessBoard(board);
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Sur quelle case voulez-vous placer une pièce ?");
-        String pawnToBePlaced = scanner.nextLine();
-
-        boolean isSquareValid = isUserInputValid(pawnToBePlaced);
+        //System.out.println("Sur quelle case voulez-vous placer une pièce ?");
+        String pieceToPlace = getUserInput("Sur quelle case voulez-vous placer votre pièce ?");
+        System.out.println(pieceToPlace);
+        boolean isSquareValid = isUserInputValid(pieceToPlace);
 
         if (isSquareValid) {
-            board = placeAPiece(pawnToBePlaced, board);
+            board = placeAPiece(pieceToPlace, board);
         } else {
             System.out.println("La case saisie est incorrecte !");
         }
@@ -274,32 +271,22 @@ public class ToutEnUnFichier {
 
         boolean isSquareEmpty;
 
-        System.out.println("Sur quelle case voulez-vous placer un cavalier ?");
-        String knightToBePlaced = scanner.nextLine();
-        isSquareValid = isUserInputValid(knightToBePlaced);
-        isSquareEmpty = isSquareEmpty(knightToBePlaced, board);
+        System.out.println("Sur quelle case voulez-vous placer votre pièce ?");
+        pieceToPlace = scanner.nextLine();
+        isSquareValid = isUserInputValid(pieceToPlace);
+        isSquareEmpty = isSquareEmpty(pieceToPlace, board);
 
-
-        if (!(isSquareEmpty || isSquareValid)) {
+        if (!(isSquareValid && isSquareEmpty) && (isSquareEmpty || isSquareValid)) {
             while (!(isSquareEmpty && isSquareValid)) {
-                System.out.println("Sur quelle case voulez-vous placer un cavalier ?");
-                knightToBePlaced = scanner.nextLine();
-                isSquareValid = isUserInputValid(knightToBePlaced);
-                isSquareEmpty = isSquareEmpty(knightToBePlaced, board);
-                if (isSquareValid) {
-                    if (isSquareEmpty) {
-                        board = placeAPiece(knightToBePlaced, board);
-                    } else {
-                        System.out.println("Cette case n'est pas vide, veuillez déplacer votre pièce sur une autre case.");
-                    }
-                } else {
-                    System.out.println("La case saisie est incorrecte !");
-                }
+                System.out.println("La case est déjà occupée par une autre pièce, veuillez en choisir une autre.");
+                pieceToPlace = scanner.nextLine();
+                isSquareValid = isUserInputValid(pieceToPlace);
+                isSquareEmpty = isSquareEmpty(pieceToPlace, board);
             }
+            board = placeAPiece(pieceToPlace, board);
         } else {
-            board = placeAPiece(knightToBePlaced, board);
+            board = placeAPiece(pieceToPlace, board);
         }
-
 
         printChessBoard(board);
 
