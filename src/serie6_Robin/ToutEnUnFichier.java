@@ -172,8 +172,8 @@ public class ToutEnUnFichier {
 
         for (int i = 0; i < knightMoves.length; i++) {
             for (int j = 0; j < knightMoves[i].length; j++) {
-                if (column + knightMoves[i][j] < board[0].length - 1) {
-                    if (row + knightMoves[i][j] < board[0].length - 1) {
+                if ((column - 1) + knightMoves[i][j] < board[0].length - 1) {
+                    if ((row - 1) + knightMoves[i][j] < board[0].length - 1) {
                         return true;
                     } else {
                         return false;
@@ -289,7 +289,6 @@ public class ToutEnUnFichier {
         }
 
         printChessBoard(board);
-
 
         System.out.println("Sur quelle case voulez-vous déplacer votre cavalier ?");
         String knightMove = scanner.nextLine();
