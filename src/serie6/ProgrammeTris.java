@@ -4,6 +4,9 @@ import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 
 // Cette classe met en œuvre différents algorithmes de tri
@@ -18,53 +21,75 @@ public class ProgrammeTris {
         }
     }
 
+    public static int[] generateTabWithRandomNumber() {
+        final int min = 1;
+        final int max = 100000;
+        final int tabSize = 50000;
+        final int[] finalTab = new int[tabSize];
+
+        int random;
+
+        for (int i = 0; i < tabSize; i++) {
+            random = (int) ((Math.random() * ((max - min) + 1)) + min);
+            finalTab[i] = random;
+        }
+
+        return finalTab;
+    }
+
+    public static void executeSort(String algo) {
+        Instant startTime = Instant.now();
+        Instant endTime = Instant.now();
+        Duration timeElapsed;
+
+        for (int i = 0; i < 10; i++) {
+            int[] finalTab = generateTabWithRandomNumber();
+            startTime = Instant.now();
+            System.out.println(finalTab.length);
+            switch (algo) {
+                case "DualPivotQuicksort": DualPivotQuickSort.sort(finalTab);
+                break;
+                case "MergeSort": MergeSort.sort(finalTab);
+                break;
+                case "HeapSort": HeapSort.sort(finalTab);
+                break;
+                case "InsertionSort": InsertionSort.sort(finalTab);
+                break;
+                case "SelectionSort": SelectionSort.sort(finalTab);
+                break;
+                case "BubbleSort": BubbleSort.sort(finalTab);
+                break;
+            }
+            endTime = Instant.now();
+            timeElapsed = Duration.between(startTime, endTime);
+            System.out.println("Le temps d'exécution est de " + timeElapsed.toMillis() + " millisecondes");
+        }
+    }
+
     public static void main(String[] args) {
 
         System.out.println("Dual Pivot Quicksort - Tri rapide");
-        int tab0[] = { 9, 3, 1, 5, 13, 12 };
-        System.out.println("Avant tri : " + Arrays.toString(tab0));
-        DualPivotQuickSort.sort(tab0);
-        System.out.println("Après tri : " + Arrays.toString(tab0));
+        executeSort("DualPivotQuicksort");
         System.out.println();
 
-        // Pour les détails du fonctionnement : https://fr.wikipedia.org/wiki/Tri_fusion
         System.out.println("Merge Sort - Tri par fusion");
-        int tab1[] = { 9, 3, 1, 5, 13, 12 };
-        System.out.println("Avant tri : " + Arrays.toString(tab1));
-        MergeSort.sort(tab1);
-        System.out.println("Après tri : " + Arrays.toString(tab1));
+        executeSort("MergeSort");
         System.out.println();
 
-        // Pour les détails du fonctionnement : https://fr.wikipedia.org/wiki/Tri_par_tas
         System.out.println("Heap Sort - Tri par tas");
-        int tab2[] = { 9, 3, 1, 5, 13, 12 };
-        System.out.println("Avant tri : " + Arrays.toString(tab2));
-        HeapSort.sort(tab2);
-        System.out.println("Après tri : " + Arrays.toString(tab2));
+        executeSort("HeapSort");
         System.out.println();
 
-        // Pour les détails du fonctionnement : https://fr.wikipedia.org/wiki/Tri_par_insertion
         System.out.println("Insertion Sort - Tri par insertion");
-        int tab3[] = { 9, 3, 1, 5, 13, 12 };
-        System.out.println("Avant tri : " + Arrays.toString(tab3));
-        InsertionSort.sort(tab3);
-        System.out.println("Après tri : " + Arrays.toString(tab3));
+        executeSort("InsertionSort");
         System.out.println();
 
-        // Pour les détails du fonctionnement : https://fr.wikipedia.org/wiki/Tri_par_sélelection
         System.out.println("Selection Sort - Tri par séléction");
-        int tab4[] = { 9, 3, 1, 5, 13, 12 };
-        System.out.println("Avant tri : " + Arrays.toString(tab4));
-        SelectionSort.sort(tab4);
-        System.out.println("Après tri : " + Arrays.toString(tab4));
+        executeSort("SelectionSort");
         System.out.println();
 
-        // Pour les détails du fonctionnement : https://fr.wikipedia.org/wiki/Tri_à_bulles
         System.out.println("Bubble Sort - Tri à bulles");
-        int tab5[] = { 9, 3, 1, 5, 13, 12 };
-        System.out.println("Avant tri : " + Arrays.toString(tab5));
-        BubbleSort.sort(tab5);
-        System.out.println("Après tri : " + Arrays.toString(tab5));
+        executeSort("BubbleSort");
         System.out.println();
     }
 }
