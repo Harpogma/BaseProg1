@@ -4,10 +4,23 @@ import java.util.Scanner;
 
 public class Exercice04 {
 
-    private static void leftShift(int[] tab, int index) {
-       for (int i = index; i > 0; i--) {
-           tab[i] = tab[i - 1];
+    private static void leftShift(int[] tab,int index, int lastNumberIndex) {
+       for (int i = index; i < lastNumberIndex; i++) {
+
        }
+    }
+
+    private static int lastNumberIndex(int[] tab, int index) {
+        int lastNumberIndex = 0;
+        for (int i = 1; i <= index; i++) {
+            if (tab[i] == 0) {
+                lastNumberIndex = i - 1;
+            } else {
+                System.out.println("The end of the array is reached!");
+            }
+        }
+
+        return lastNumberIndex;
     }
 
     public static void insertValues(int[] tab, int number, int index) {
@@ -16,15 +29,16 @@ public class Exercice04 {
 
         for (int i = index - 1; i < index; i++) {
             while (!numberPlaced) {
+                int lastNumberIndex = lastNumberIndex(tab, index);
                 if (number < tab[i]) {
-                    leftShift(tab, index);
+                    System.out.println(lastNumberIndex);
                     tab[i] = number;
                     numberPlaced = true;
                 } else if (number > tab[i] && tab[i + 1] == 0) {
                     tab[i + 1] = number;
                     numberPlaced = true;
                 } else if (number == tab[i]) {
-                    leftShift(tab, index);
+                    leftShift(tab, index, lastNumberIndex);
                     tab[i] = number;
                     numberPlaced = true;
                 }
