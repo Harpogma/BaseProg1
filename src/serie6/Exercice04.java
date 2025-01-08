@@ -5,8 +5,16 @@ import java.util.Scanner;
 public class Exercice04 {
 
     private static void leftShift(int[] tab,int index, int lastNumberIndex) {
-       for (int i = index; i < lastNumberIndex; i++) {
 
+
+        for (int i = lastNumberIndex; i > index; i--) {
+            if (i > index) {
+                int temp = tab[i + 1];
+                tab[i + 1] = tab[i];
+                tab[i] = temp;
+            } else {
+                tab[i + 1] = tab[i];
+            }
        }
     }
 
@@ -32,6 +40,7 @@ public class Exercice04 {
                 int lastNumberIndex = lastNumberIndex(tab, index);
                 if (number < tab[i]) {
                     System.out.println(lastNumberIndex);
+                    leftShift(tab, index, lastNumberIndex);
                     tab[i] = number;
                     numberPlaced = true;
                 } else if (number > tab[i] && tab[i + 1] == 0) {
