@@ -29,11 +29,11 @@ public class testBlanc {
         return age;
     }
 
-    public static int indexOfYoungestPlayer (int[] ages) {
-        int youngestPlayerIndex = 100;
+    public static int indexYoungestPlayer (int[] ages) {
+        int youngestPlayerIndex = 0;
 
-        for (int i = 0; i < ages.length - 1; i++) {
-            if (ages[i] < ages[i + 1]) {
+        for (int i = 0; i < ages.length; i++) {
+            if (ages[i] < ages[youngestPlayerIndex]) {
                 youngestPlayerIndex = i;
             }
         }
@@ -64,18 +64,48 @@ public class testBlanc {
         }
     }
 
-    public static int[] playerMouvement (int startPosition) {
+    public static int playOneTurn (String input) {
+        int playerValue = 0;
+        Scanner userInput = new Scanner(System.in);
+        System.out.println(input);
+        playerValue = userInput.nextInt();
 
+        return playerValue;
+    }
+
+    public static void setScore (int[] scores, int currentScore, int playerIndex) {
+        scores[playerIndex] += currentScore;
     }
 
     public static int generateRandomNumber (int min, int max) {
         return (int)(Math.random() * (max - min + 1) + min);
     }
 
+    public static boolean isAWinner (int[] scores) {
+        for (int i = 0; i < scores.length - 1; i++) {
+            if (scores[i] == 25) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int nextPlayerIndex (int[] ages, int currentPlayerIndex) {
+        int nextPlayerIndex = 0;
+        if (currentPlayerIndex == ages.length - 1) {
+            nextPlayerIndex = 0;
+        } else {
+            nextPlayerIndex = currentPlayerIndex + 1;
+        }
+        return nextPlayerIndex;
+    }
+
     public static void main(String[] args) {
         int numberOfPlayers = defineNumberOfPayer();
         int[] ages = new int[numberOfPlayers];
+        int[] scores = new int[numberOfPlayers];
         String[] names = new String[numberOfPlayers];
+
         int[] ladderPositions = new int[6];
         int[] snakePositions = new int[10];
         int[][] board = {
@@ -87,8 +117,21 @@ public class testBlanc {
         };
 
         setPlayerInformation(numberOfPlayers, names, ages);
-        int youngestPlayer = indexOfYoungestPlayer(ages);
-        System.out.println(youngestPlayer);
+        int youngestPlayer = indexYoungestPlayer(ages);
+        System.out.println("L'index de l'âge le plus jeune est : " + youngestPlayer);
+        System.out.println("Le joueur le plus jeune est " + names[youngestPlayer]);
+        int currentValue = 0;
+        boolean isAWinner = false;
+        int currentPlayerIndex = youngestPlayer;
+
+        while (!isAWinner) {
+
+            currentValue = playOneTurn(names[currentPlayerIndex] + ", lance le dé. Quelle est sa valeur : ");
+            setScore(scores, currentValue, currentPlayerIndex);
+            currentPlayerIndex = nextPlayerIndex(ages, currentPlayerIndex);
+            System.out.println("Le prochain joueur à jouer est : " + names[currentPlayerIndex]);
+            isAWinner = isAWinner(scores);
+        }
 
     }
 }
